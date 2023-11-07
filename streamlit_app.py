@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-df = pd.Dataframe(columns=['name', 'assosiation', 'is cool?'])
+df = pd.Dataframe(columns=['name', 'assosiation', 'is_cool'])
 with st.form("my_form"):
    st.write("Inside the form")
    name = st.text_area("name")
