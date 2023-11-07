@@ -3,11 +3,14 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-import streamlit as st
-import pandas as pd
+with st.form("my_form"):
+   st.write("Inside the form")
+   slider_val = st.text_area("Form text")
+   checkbox_val = st.checkbox("Form checkbox")
 
-st.write("Here's our first attempt at using data to create a table:")
-st.write(pd.DataFrame({
-    'first column': [1, 2, 3, 4],
-    'second column': [10, 20, 30, 40]
-}))
+   # Every form must have a submit button.
+   submitted = st.form_submit_button("Submit")
+   if submitted:
+       st.write("slider", slider_val, "checkbox", checkbox_val)
+
+st.write("Outside the form")
