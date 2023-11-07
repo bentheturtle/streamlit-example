@@ -3,16 +3,28 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-df = pd.Dataframe(columns=['name', 'assosiation', 'is_cool'])
-with st.form("my_form"):
-   st.write("Inside the form")
-   name = st.text_area("name")
-   ass = st.text_area("assosiation")
-   cooling = st.checkbox("is cool?")
+@st.cache
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv(index=False).encode('utf-8')
 
-   # Every form must have a submit button.
-   submitted = st.form_submit_button("Submit")
-   if submitted:
-       df.loc[len(df.index)] = [name, ass, cooling] 
+uploaded_file = st.file_uploader("Choose a file")
+df = pd.DataFrame({'name': ['ben'], 'assosiation': ['me'], 'is_cool': [True]})
+if uploaded_file is not None:
+    # Can be used wherever a "file-like" object is accepted:
+    df = pd.read_csv(uploaded_file)
 
-st.write(df)
+edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
+
+
+
+
+csv = convert_df(edited_df)
+
+st.download_button(
+    label="Download data as CSV",
+    data=csv,
+    file_name='df.csv',
+    mime='text/csv',
+)
+
